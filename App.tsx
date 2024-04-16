@@ -1,72 +1,88 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
+ * Created by Manikanta Ikkurthi
  */
 
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+
+import store from './src/store';
+import { Provider } from 'react-redux';
+import PokemonComponent from './src/screens/home';
+import CartScreen from './src/screens/cart';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+
+/**
+ * Custom Header Component will return Cart button 
+ */
+const HeaderComponent = ({ navigation }: any) => {
+
+  /**
+   * on clicking the Cart button it will navigate to cart screen
+   */
+  const onCartPress = () => {
+    navigation.navigate('cart');
+  }
+  return (
+    <View style={styles.headerContainer}>
+      <TouchableOpacity onPress={onCartPress} style={styles.cartBtn}>
+          <Text style={styles.btnTxt}>Cart</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+/**
+ * Application Routes declared here
+ */
+function AppRoutes() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          header: ({ navigation }: any) => <HeaderComponent navigation={navigation} />
+        }}
+      >
+        <Stack.Screen name='home' component={PokemonComponent} />
+        <Stack.Screen name='cart' component={CartScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Text>Hello Poke Store</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <Provider store={store}>
+          <AppRoutes />
+      </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  headerContainer: {
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    backgroundColor: '#fff',
+    alignSelf: 'flex-end'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  cartBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    backgroundColor: 'blue',
+    borderRadius: 50,
+    flexDirection: 'row'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  btnTxt: {
+    color: '#fff'
   },
 });
 
