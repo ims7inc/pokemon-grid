@@ -2,8 +2,9 @@
  * Created by Manikanta Ikkurthi
  */
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,9 +15,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import store from './src/store';
 import { Provider } from 'react-redux';
-import PokemonComponent from './src/screens/home';
-import CartScreen from './src/screens/cart';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const HomeScreen = React.lazy(() => import('./src/screens/home'));
+const CartScreen = React.lazy(() => import('./src/screens/cart'));
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +37,7 @@ const HeaderComponent = ({ navigation }: any) => {
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress={onCartPress} style={styles.cartBtn}>
-          <Text style={styles.btnTxt}>Cart</Text>
+        <Text style={styles.btnTxt}>Cart</Text>
       </TouchableOpacity>
     </View>
   )
@@ -47,23 +49,25 @@ const HeaderComponent = ({ navigation }: any) => {
 function AppRoutes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          header: ({ navigation }: any) => <HeaderComponent navigation={navigation} />
-        }}
-      >
-        <Stack.Screen name='home' component={PokemonComponent} />
-        <Stack.Screen name='cart' component={CartScreen} />
-      </Stack.Navigator>
+      <Suspense fallback={<ActivityIndicator size={'small'} />}>
+        <Stack.Navigator
+          screenOptions={{
+            header: ({ navigation }: any) => <HeaderComponent navigation={navigation} />
+          }}
+        >
+          <Stack.Screen name='home' component={HomeScreen} />
+          <Stack.Screen name='cart' component={CartScreen} />
+        </Stack.Navigator>
+      </Suspense>
     </NavigationContainer>
   )
 }
 
 function App(): React.JSX.Element {
   return (
-      <Provider store={store}>
-          <AppRoutes />
-      </Provider>
+    <Provider store={store}>
+      <AppRoutes />
+    </Provider>
   );
 }
 

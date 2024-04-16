@@ -10,7 +10,7 @@ import { fetchNextPokeMons, fetchPokeMons } from '../../store/slices/home';
 import { CartItem, addToCart, removeFromCart, decreaseQyt } from '../../store/slices/cart';
 import { RootState } from '../../store';
 
-const PokemonComponent = () => {
+const HomeScreen = () => {
   const dispatch = useDispatch();
   const pokemonReducer = useSelector((state: RootState) => state.pokemons);
   const cartReducer = useSelector((state: RootState) => state.cart);
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default PokemonComponent;
+export default HomeScreen;
