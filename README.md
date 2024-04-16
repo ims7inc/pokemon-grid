@@ -1,8 +1,8 @@
-This is [**PokeMon Store**](https://reactnative.dev) project.
+This is [**PokeMon Store**](https://github.com/ims7inc/pokemon-grid) project.
 
-# Getting Started
+# Pokemon Store App
 
-## Story1: Visualize the Pokemon items in Layout
+## Visualize the Pokemon items in Layout
 
 1. We will fetch the pokemons list from pokemon Api's and populating in grid layout.
 2. by default we are showing 20 pokemons.
