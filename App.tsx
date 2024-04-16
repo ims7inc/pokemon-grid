@@ -16,8 +16,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import store from './src/store';
 import { Provider } from 'react-redux';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/home';
 
-const HomeScreen = React.lazy(() => import('./src/screens/home'));
 const CartScreen = React.lazy(() => import('./src/screens/cart'));
 
 const Stack = createNativeStackNavigator();
