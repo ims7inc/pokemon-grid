@@ -1,6 +1,12 @@
 /* Requires the Docker Pipeline plugins */
 pipeline {
-    agent { docker { image 'node:18.20.0-alpine3.20' } }
+    agent any
+
+    environment {
+        NODEJS_HOME = tool name: 'NodeJS 18', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        PATH = "${NODEJS_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('check') {
             steps {
@@ -13,7 +19,7 @@ pipeline {
                 sh 'npm install'
             }
         }
-        
+
         stage('build') {
             steps {
                 sh 'npm build'
